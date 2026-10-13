@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0a0b0f" />
+  <meta name="description" content="Nova Free Video Studio — generate real videos with verified free-tier providers. Mobile-first, ₹0 friendly." />
+  <title>Nova · Free Video Studio</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header" id="site-header">
+    <nav class="nav container">
+      <a href="#top" class="brand">
+        <span class="brand-mark">◆</span>
+        <span class="brand-name">Nova</span>
+      </a>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#studio">Studio</a></li>
+        <li><a href="#provider">Provider</a></li>
+        <li><a href="#local">Local</a></li>
+        <li><a href="#history">History</a></li>
+        <li><a href="#help" class="btn btn-sm">Help</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+    <!-- Hero -->
+    <section class="hero" id="top">
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="container hero-inner">
+        <span class="eyebrow">Zero budget · Android ready</span>
+        <h1>Make <span class="gradient-text">real videos</span>, not mockups.</h1>
+        <p class="hero-sub">
+          Nova connects to verified free-tier video providers and generates genuine
+          MP4s in your browser. No fake previews, no hidden costs, no GPU required.
+        </p>
+        <div class="hero-actions">
+          <a href="#studio" class="btn btn-primary">Open studio</a>
+          <a href="#provider" class="btn btn-ghost">Verify provider</a>
+        </div>
+        <ul class="hero-bullets">
+          <li>Verified endpoint, live catalog</li>
+          <li>Your key stays in your browser</li>
+          <li>Offline canvas video included</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Provider verification -->
+    <section class="section" id="provider">
+      <div class="container">
+        <header class="section-head">
+          <span class="eyebrow">Step 1 · Verify</span>
+          <h2>Free video provider status</h2>
+          <p>We only integrate what we have actually tested from this device.</p>
+        </header>
+
+        <div class="verify-card">
+          <div class="verify-row">
+            <span class="verify-label">Provider</span>
+            <span class="verify-value">Pollinations (gen.pollinations.ai)</span>
+          </div>
+          <div class="verify-row">
+            <span class="verify-label">Catalog</span>
+            <span class="verify-value" id="v-catalog">Checking…</span>
+          </div>
+          <div class="verify-row">
+            <span class="verify-label">CORS</span>
+            <span class="verify-value" id="v-cors">Checking…</span>
+          </div>
+          <div class="verify-row">
+            <span class="verify-label">Generation</span>
+            <span class="verify-value" id="v-gen">Auth required (401 without key)</span>
+          </div>
+          <div class="verify-row">
+            <span class="verify-label">Models</span>
+            <span class="verify-value" id="v-models">—</span>
+          </div>
+          <div class="actions-row">
+            <button class="btn btn-ghost" id="btn-refresh-catalog" type="button">Re-check provider</button>
+            <button class="btn btn-ghost" id="btn-test-key" type="button">Test my key</button>
+          </div>
+          <p class="status-text" id="provider-status" role="status" aria-live="polite"></p>
+        </div>
+
+        <div class="verify-card key-card">
+          <h3>Your free API key</h3>
+          <p class="muted">
+            Pollinations offers free signup at <a class="link" href="https://enter.pollinations.ai/keys" target="_blank" rel="noopener">enter.pollinations.ai/keys</a>.
+            The key is stored only in this browser (localStorage). Never commit it.
+          </p>
+          <div class="key-row">
+            <label class="sr-only" for="api-key">API key</label>
+            <input id="api-key" type="password" inputmode="text" autocomplete="off" placeholder="sk_ or pk_ key" />
+            <button class="btn btn-primary" id="btn-save-key" type="button">Save</button>
+            <button class="btn btn-ghost" id="btn-clear-key" type="button">Clear</button>
+          </div>
+          <p class="status-text" id="key-status" role="status" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Studio -->
+    <section class="section alt" id="studio">
+      <div class="container">
+        <header class="section-head">
+          <span class="eyebrow">Step 2 · Generate</span>
+          <h2>Text to video</h2>
+          <p>Uses the verified Pollinations endpoint. A real request, a real MP4.</p>
+        </header>
+
+        <form class="studio-form" id="gen-form">
+          <div class="field">
+            <label for="prompt">Prompt</label>
+            <textarea id="prompt" rows="3" required placeholder="A cinematic sunset over the ocean, golden light, waves"></textarea>
+          </div>
+
+          <div class="field">
+            <label for="model">Model</label>
+            <select id="model"></select>
+          </div>
+
+          <div class="two-col">
+            <div class="field">
+              <label for="duration">Duration (s)</label>
+              <select id="duration"></select>
+            </div>
+            <div class="field">
+              <label for="resolution">Resolution</label>
+              <select id="resolution"></select>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block" id="btn-generate">
+            Generate video
+          </button>
+          <p class="status-text" id="gen-status" role="status" aria-live="polite"></p>
+        </form>
+
+        <div class="result-card hidden" id="result-card">
+          <video id="result-video" controls playsinline preload="metadata"></video>
+          <div class="result-meta">
+            <p id="result-info" class="muted"></p>
+            <a id="result-download" class="btn btn-ghost btn-sm" download>Download MP4</a>
+            <a id="result-open" class="btn btn-ghost btn-sm" target="_blank" rel="noopener">Open source URL</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Local generator -->
+    <section class="section" id="local">
+      <div class="container">
+        <header class="section-head">
+          <span class="eyebrow">Step 3 · Offline</span>
+          <h2>Local canvas video</h2>
+          <p>Generates a real video in your browser. No network, no key, no limits.</p>
+        </header>
+
+        <form class="studio-form" id="local-form">
+          <div class="field">
+            <label for="local-prompt">Scene name</label>
+            <input id="local-prompt" type="text" value="Aurora waves" />
+          </div>
+          <div class="two-col">
+            <div class="field">
+              <label for="local-seconds">Seconds</label>
+              <select id="local-seconds">
+                <option value="3">3</option>
+                <option value="5" selected>5</option>
+                <option value="8">8</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="local-fps">FPS</label>
+              <select id="local-fps">
+                <option value="24">24</option>
+                <option value="30" selected>30</option>
+              </select>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block" id="btn-local">Record video</button>
+          <p class="status-text" id="local-status" role="status" aria-live="polite"></p>
+        </form>
+
+        <div class="result-card hidden" id="local-result">
+          <video id="local-video" controls playsinline preload="metadata"></video>
+          <div class="result-meta">
+            <a id="local-download" class="btn btn-ghost btn-sm" download="nova-local.webm">Download WebM</a>
+          </div>
+        </div>
+        <canvas id="local-canvas" width="640" height="360" aria-hidden="true"></canvas>
+      </div>
+    </section>
+
+    <!-- History -->
+    <section class="section alt" id="history">
+      <div class="container">
+        <header class="section-head">
+          <span class="eyebrow">Your creations</span>
+          <h2>History</h2>
+          <p>Stored locally. Only entries with a public source URL can be reopened.</p>
+        </header>
+        <div id="history-list" class="history-list"></div>
+        <button class="btn btn-ghost" id="btn-clear-history" type="button">Clear history</button>
+      </div>
+    </section>
+
+    <!-- Help -->
+    <section class="section" id="help">
+      <div class="container narrow">
+        <header class="section-head">
+          <span class="eyebrow">Help</span>
+          <h2>Run on Android (Termux)</h2>
+        </header>
+        <ol class="steps">
+          <li>Install Termux from F-Droid.</li>
+          <li>Run <code>pkg update -y && pkg install -y python</code></li>
+          <li>Copy this project folder into Termux or clone it.</li>
+          <li><code>cd /path/to/project && python -m http.server 8000</code></li>
+          <li>Open <code>http://localhost:8000</code> in Chrome/Firefox.</li>
+        </ol>
+        <p class="muted">
+          For a production-style server: <code>npx serve .</code> or <code>php -S localhost:8000</code>.
+          Get a free Pollinations key: <a class="link" href="https://enter.pollinations.ai/keys" target="_blank" rel="noopener">enter.pollinations.ai/keys</a>.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bar">
+      <span>© 2026 Nova · Free Video Studio</span>
+      <span>Real videos only · Mobile-first</span>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
