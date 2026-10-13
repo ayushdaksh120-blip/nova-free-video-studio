@@ -235,7 +235,7 @@ $("#gen-form")?.addEventListener("submit", async (e) => {
 
     const item = {
       prompt: p, model, duration, resolution, seed, imageUrl,
-      url: sourceUrl, localUrl: objUrl, size: blob.size, when: Date.now(),
+      url: sourceUrl, size: blob.size, when: Date.now(),
     };
     lastGenerated = item;
     addHistory(item);
@@ -312,7 +312,7 @@ function renderGallery() {
   }
   grid.innerHTML = items.map((it, idx) => `
     <article class="media-card">
-      <video src="${escapeAttr(it.localUrl || it.url)}" preload="none" controls playsinline></video>
+      <video src="${escapeAttr(it.url || "")}" preload="none" controls playsinline></video>
       <div class="mc-body">
         <div class="mc-title">${escapeHtml((it.prompt || "").slice(0, 80))}</div>
         <div class="mc-meta">${escapeHtml(it.model || "")} · ${it.duration || "?"}s${it.resolution ? " · " + it.resolution : ""} · ${new Date(it.when).toLocaleString()}</div>
@@ -327,7 +327,7 @@ function renderGallery() {
     const i = Number(b.dataset.replay);
     const it = loadHistory()[i];
     if (!it) return;
-    $("#preview-video").src = it.localUrl || it.url;
+    $("#preview-video").src = it.url || "";
     $("#preview-video").load();
     $("#preview-empty")?.classList.add("hidden");
     $("#preview-media")?.classList.remove("hidden");
