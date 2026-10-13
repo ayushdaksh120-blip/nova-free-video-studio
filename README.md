@@ -1,59 +1,40 @@
-# Nova · Free Video Studio
+# Nova Studio · AI Video Generation
 
-Mobile-first dark website with a real video generation flow.
+Kling-style, mobile-first web app for generating real AI videos.
+
+- Live site (GitHub Pages): https://ayushdaksh120-blip.github.io/nova-free-video-studio/
+- Repository: https://github.com/ayushdaksh120-blip/nova-free-video-studio
 
 ## Files
-- `index.html` — markup
+- `index.html` — multi-tab app UI
 - `styles.css` — mobile-first dark theme
-- `script.js` — provider verification, Pollinations video gen, local canvas recorder, history
-- `README.md` — this file
+- `script.js` — provider verification, Pollinations generation, local canvas recorder, gallery
+- `manifest.webmanifest` — installable PWA metadata
+- `README.md` — setup notes
 
-## Provider status (verified from this environment)
-- Endpoint tested: `https://gen.pollinations.ai/video/models` → HTTP 200, returns 20 video models.
-- CORS: preflight returns 204 with `access-control-allow-origin: *`.
-- Anonymous generation: `https://gen.pollinations.ai/video/...` → HTTP 401 (key required). No fake videos are shown; the UI surfaces this error.
-- Keys are never hardcoded. Enter your free key in the Provider section (stored in browser localStorage).
+## Verified provider status
+- Catalog: `GET https://gen.pollinations.ai/video/models` → HTTP 200 (20 models)
+- CORS: preflight `OPTIONS` → 204 with `access-control-allow-origin: *`
+- Generation: anonymous `GET /video/...` → HTTP 401 (key required)
+- Key validation: `GET /account/key` with Bearer token
+- Only the verified Pollinations endpoint is integrated. Other providers are listed as not integrated.
 
-## Run on Android (Termux)
-1. Install Termux (F-Droid recommended).
-2. Update and install Python:
-   ```
-   pkg update -y
-   pkg install -y python
-   ```
-3. Put this project in a folder (e.g. `/sdcard/Download/nova` or `~/nova`).
-4. Start server:
-   ```
-   cd ~/nova
-   python -m http.server 8000
-   ```
-5. Open `http://localhost:8000` or `http://127.0.0.1:8000` in Chrome/Firefox.
-   On same Wi-Fi, use your phone IP: `http://<phone-ip>:8000`.
-
-Alternative servers:
-```
-cd ~/nova && npx serve .
-cd ~/nova && php -S localhost:8000
+## Local run
+```bash
+python -m http.server 9000
+# open http://localhost:9000
 ```
 
-## Get a free Pollinations key
-1. Open https://enter.pollinations.ai/keys
-2. Sign in with GitHub (free) and create a key.
-3. Paste it into the site's Provider section and click "Test my key".
-   Keys stay in your browser only.
+Android/Termux:
+```bash
+pkg update -y
+pkg install -y python git
+git clone https://github.com/ayushdaksh120-blip/nova-free-video-studio.git
+cd nova-free-video-studio
+python -m http.server 9000
+```
 
-## Test stages
-- Stage 1 (provider): open `#provider`, click "Re-check provider" — expect catalog count.
-- Stage 2 (key): save key, click "Test my key" — expect "Key valid".
-- Stage 3 (remote gen): fill prompt, click "Generate video" — expect real MP4 or a real error.
-- Stage 4 (offline): use `#local` to record a canvas video without network.
-- Stage 5 (history): verify entries list; clear with "Clear history".
-
-## Budget notes
-- ₹0: uses free tiers/quest pollen only. Paid-only models may fail; errors are shown honestly.
-- No local GPU needed. Remote generation runs on provider; local recorder runs on device CPU.
-- keep prompts short to reduce cost.
-
-## Safety
-- Never commit API keys. The site reads from localStorage only.
-- `VERIFY FREE PROVIDERS BEFORE INTEGRATING`: this repo documents tested endpoints above; do not add unverified endpoints.
+## Security
+- No API keys are committed.
+- Keys are stored only in browser localStorage.
+-Rotate shared tokens after use.

@@ -1,0 +1,9 @@
+{
+  "name": "Nova Studio · AI Video Generation",
+  "short_name": "Nova Studio",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#07090f",
+  "theme_color": "#07090f",
+  "icons": []
+}
