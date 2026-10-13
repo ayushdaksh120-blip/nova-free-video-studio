@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#07090f" />
-  <meta name="description" content="Kling-style AI video generation web app. Mobile-first, verified providers, real videos only." />
-  <title>Nova Studio · AI Video Generation</title>
+  <meta name="theme-color" content="#06080f" />
+  <meta name="description" content="Nova Generator — an independent, in-browser AI-style video generator. No API keys, no paid providers, no fake videos." />
+  <title>Nova Generator · Independent Video Studio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -16,23 +16,20 @@
   <a class="skip-link" href="#main">Skip to content</a>
 
   <div class="app">
-    <header class="site-header" id="site-header">
+    <header class="site-header">
       <div class="nav container">
-        <a href="#studio" class="brand" data-tab="studio">
+        <a href="#studio" class="brand">
           <span class="brand-mark">◆</span>
-          <span class="brand-name">Nova Studio</span>
-          <span class="brand-badge">AI Video</span>
+          <span class="brand-name">Nova Generator</span>
+          <span class="brand-badge">Owner-built</span>
         </a>
-
         <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
           <span></span><span></span><span></span>
         </button>
-
         <nav class="nav-tabs" id="nav-links" aria-label="Primary">
           <button class="tab-btn active" data-tab="studio" type="button">Studio</button>
           <button class="tab-btn" data-tab="gallery" type="button">Gallery</button>
-          <button class="tab-btn" data-tab="providers" type="button">Providers</button>
-          <button class="tab-btn" data-tab="tools" type="button">Offline</button>
+          <button class="tab-btn" data-tab="engine" type="button">Engine</button>
           <button class="tab-btn" data-tab="docs" type="button">Docs</button>
         </nav>
       </div>
@@ -44,58 +41,72 @@
         <div class="container studio-layout">
           <div class="studio-left">
             <div class="hero-card">
-              <span class="eyebrow">Kling-style workspace</span>
-              <h1>Create <span class="gradient-text">cinematic AI video</span> in minutes.</h1>
-              <p class="hero-sub">Text to video, image anchors, real providers, and an offline fallback that never shows fake previews.</p>
+              <span class="eyebrow">Independent generation · ₹0</span>
+              <h1>Create <span class="gradient-text">real videos</span> without APIs.</h1>
+              <p class="hero-sub">Nova Generator is its own engine: prompt-driven scenes, deterministic seeds, real-time canvas rendering, and genuine MediaRecorder output. No provider, no key, no fake preview.</p>
             </div>
 
             <form class="studio-form" id="gen-form">
               <div class="field">
                 <label for="prompt">Prompt <span class="req">*</span></label>
-                <textarea id="prompt" rows="5" required placeholder="A golden retriever running through a neon city at night, cinematic lighting, slow motion"></textarea>
-              </div>
-
-              <div class="field">
-                <label for="negative">Negative prompt</label>
-                <input id="negative" type="text" placeholder="blurry, low quality, watermark, text" />
+                <textarea id="prompt" rows="5" required placeholder="Cinematic sunset over mountains, golden light, slow motion, calm atmosphere"></textarea>
               </div>
 
               <div class="grid2">
                 <div class="field">
-                  <label for="model">Model</label>
-                  <select id="model" required></select>
+                  <label for="style">Visual engine</label>
+                  <select id="style">
+                    <option value="auto">Auto (from prompt)</option>
+                    <option value="aurora">Aurora landscapes</option>
+                    <option value="city">Neon city</option>
+                    <option value="ocean">Ocean waves</option>
+                    <option value="space">Deep space</option>
+                    <option value="abstract">Abstract motion</option>
+                    <option value="nature">Nature timelapse</option>
+                  </select>
                 </div>
                 <div class="field">
                   <label for="duration">Duration</label>
-                  <select id="duration"></select>
+                  <select id="duration">
+                    <option value="3">3s</option>
+                    <option value="5" selected>5s</option>
+                    <option value="8">8s</option>
+                    <option value="10">10s</option>
+                  </select>
                 </div>
               </div>
 
               <div class="grid2">
                 <div class="field">
                   <label for="resolution">Resolution</label>
-                  <select id="resolution"></select>
+                  <select id="resolution">
+                    <option value="640x360">640×360 (fast)</option>
+                    <option value="854x480" selected>854×480 (balanced)</option>
+                    <option value="1280x720">1280×720 (HD)</option>
+                  </select>
                 </div>
                 <div class="field">
-                  <label for="seed">Seed (optional)</label>
-                  <input id="seed" type="number" min="0" step="1" placeholder="auto" />
+                  <label for="fps">FPS</label>
+                  <select id="fps">
+                    <option value="24">24</option>
+                    <option value="30" selected>30</option>
+                  </select>
                 </div>
               </div>
 
-              <div class="field">
-                <label for="image-url">Start image URL (optional)</label>
-                <input id="image-url" type="url" placeholder="https://example.com/start-frame.png" />
-                <p class="hint">Used when the selected model supports image anchoring.</p>
-              </div>
-
-              <div class="field">
-                <label for="aspect">Aspect hint</label>
-                <select id="aspect">
-                  <option value="">Use model default</option>
-                  <option value="16:9">16:9 Landscape</option>
-                  <option value="9:16">9:16 Portrait</option>
-                  <option value="1:1">1:1 Square</option>
-                </select>
+              <div class="grid2">
+                <div class="field">
+                  <label for="seed">Seed (optional)</label>
+                  <input id="seed" type="number" min="0" step="1" placeholder="auto from prompt" />
+                </div>
+                <div class="field">
+                  <label for="audio">Ambient tone</label>
+                  <select id="audio">
+                    <option value="off">No audio</option>
+                    <option value="hum">Deep hum</option>
+                    <option value="sparkle">Sparkle</option>
+                  </select>
+                </div>
               </div>
 
               <div class="actions">
@@ -107,7 +118,7 @@
           </div>
 
           <div class="studio-right">
-            <div class="preview-card" id="preview-card">
+            <div class="preview-card">
               <div class="preview-empty" id="preview-empty">
                 <div class="preview-placeholder">
                   <span>🎬</span>
@@ -120,9 +131,8 @@
               <div class="preview-meta hidden" id="preview-meta">
                 <p id="preview-info" class="muted"></p>
                 <div class="actions">
-                  <a id="preview-download" class="btn btn-ghost btn-sm" download>Download</a>
-                  <a id="preview-open" class="btn btn-ghost btn-sm" target="_blank" rel="noopener">Open source</a>
-                  <button class="btn btn-ghost btn-sm" id="preview-to-gallery" type="button">Save to gallery</button>
+                  <a id="preview-download" class="btn btn-ghost btn-sm" download="nova-video.webm">Download</a>
+                  <button class="btn btn-ghost btn-sm" id="preview-save" type="button">Save to gallery</button>
                 </div>
               </div>
             </div>
@@ -142,110 +152,32 @@
       <section class="view" id="view-gallery">
         <div class="container">
           <header class="section-head">
-            <span class="eyebrow">Your library</span>
-            <h2>Generated media</h2>
-            <p>Local history only. Remote source links can be reopened if still available.</p>
+            <span class="eyebrow">Local media vault</span>
+            <h2>Gallery (stored on this device)</h2>
+            <p>Videos are saved in your browser database. They never leave your device unless you download or share them.</p>
           </header>
           <div class="grid-cards" id="gallery-grid"></div>
           <div class="actions" style="margin-top:16px;">
-            <button class="btn btn-ghost" id="btn-clear-history" type="button">Clear gallery</button>
+            <button class="btn btn-ghost" id="btn-clear-gallery" type="button">Clear gallery</button>
           </div>
         </div>
       </section>
 
-      <!-- PROVIDERS -->
-      <section class="view" id="view-providers">
+      <!-- ENGINE -->
+      <section class="view" id="view-engine">
         <div class="container narrow">
           <header class="section-head">
-            <span class="eyebrow">Provider control center</span>
-            <h2>Verified providers</h2>
-            <p>Only endpoints tested from this project are integrated. No hidden defaults.</p>
+            <span class="eyebrow">How it works</span>
+            <h2>Independent engine architecture</h2>
           </header>
-
-          <div class="provider-card">
-            <div class="provider-top">
-              <div>
-                <h3>Pollinations</h3>
-                <p class="muted">Verified: catalog HTTP 200, CORS, model listing, key validation.</p>
-              </div>
-              <span class="status-pill ok" id="provider-pill">Checking…</span>
-            </div>
-
-            <div class="verify-row"><span>Catalog</span><span id="p-catalog">—</span></div>
-            <div class="verify-row"><span>CORS</span><span id="p-cors">—</span></div>
-            <div class="verify-row"><span>Video models</span><span id="p-models">—</span></div>
-            <div class="verify-row"><span>Generation</span><span>Auth required (401 without key)</span></div>
-
-            <div class="actions" style="margin-top:14px;">
-              <button class="btn btn-ghost" id="btn-refresh-provider" type="button">Re-check</button>
-              <button class="btn btn-ghost" id="btn-test-key" type="button">Test key</button>
-            </div>
-            <p class="status-text" id="provider-status" role="status" aria-live="polite"></p>
-
-            <div class="field" style="margin-top:14px;">
-              <label for="api-key">Pollinations API key</label>
-              <div class="key-row">
-                <input id="api-key" type="password" inputmode="text" autocomplete="off" placeholder="sk_… or pk_…" />
-                <button class="btn btn-primary" id="btn-save-key" type="button">Save</button>
-                <button class="btn btn-ghost" id="btn-clear-key" type="button">Clear</button>
-              </div>
-              <p class="hint">Stored only in this browser (localStorage). Free signup: <a class="link" href="https://enter.pollinations.ai/keys" target="_blank" rel="noopener">enter.pollinations.ai/keys</a></p>
-              <p class="status-text" id="key-status" role="status" aria-live="polite"></p>
-            </div>
-          </div>
-
-          <div class="provider-card">
-            <h3>Other providers</h3>
-            <p class="muted">Not integrated yet because their endpoints were not verified in this build. You can add more inside <code>script.js</code> after testing them honestly.</p>
-            <ul class="provider-list">
-              <li><strong>Local canvas engine</strong> — verified, offline, no key.</li>
-              <li><strong>Hugging Face Inference</strong> — requires endpoint verification and CORS check.</li>
-              <li><strong>Replicate</strong> — requires token and verified model endpoint.</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <!-- OFFLINE -->
-      <section class="view" id="view-tools">
-        <div class="container narrow">
-          <header class="section-head">
-            <span class="eyebrow">Guaranteed offline</span>
-            <h2>Local motion studio</h2>
-            <p>Creates a real WebM video on your device. No API, no token, no limits.</p>
-          </header>
-
-          <form class="studio-form" id="local-form">
-            <div class="field">
-              <label for="local-prompt">Scene name</label>
-              <input id="local-prompt" type="text" value="Aurora waves over mountains" />
-            </div>
-            <div class="grid2">
-              <div class="field">
-                <label for="local-seconds">Seconds</label>
-                <select id="local-seconds">
-                  <option value="3">3s</option>
-                  <option value="5" selected>5s</option>
-                  <option value="8">8s</option>
-                </select>
-              </div>
-              <div class="field">
-                <label for="local-fps">FPS</label>
-                <select id="local-fps">
-                  <option value="24">24</option>
-                  <option value="30" selected>30</option>
-                </select>
-              </div>
-            </div>
-            <button type="submit" class="btn btn-primary btn-block" id="btn-local">Record video</button>
-            <p class="status-text" id="local-status" role="status" aria-live="polite"></p>
-          </form>
-          <div class="preview-card" id="local-preview" style="margin-top:16px;">
-            <div class="preview-empty" id="local-empty"><div class="preview-placeholder"><span>🎞️</span><p>Recorded local video appears here.</p></div></div>
-            <div class="preview-media hidden" id="local-media"><video id="local-video" controls playsinline preload="metadata"></video></div>
-            <div class="preview-meta hidden" id="local-meta"><div class="actions"><a id="local-download" class="btn btn-ghost btn-sm" download="nova-local.webm">Download WebM</a></div></div>
-          </div>
-          <canvas id="local-canvas" width="768" height="432" aria-hidden="true"></canvas>
+          <ol class="steps">
+            <li><strong>Prompt parsing:</strong> keywords select a scene engine and palette.</li>
+            <li><strong>Deterministic seed:</strong> the same prompt and seed produce the same motion.</li>
+            <li><strong>Real-time rasterization:</strong> canvas compositing, gradients, particles, fields, typography.</li>
+            <li><strong>Genuine capture:</strong> MediaRecorder encodes actual rendered frames into WebM.</li>
+            <li><strong>Local persistence:</strong> IndexedDB stores videos for offline gallery use.</li>
+          </ol>
+          <p class="muted" style="margin-top:14px;">This is a self-contained owner-built generator. It does not call Pollinations, Kling, Runway, Replicate, Hugging Face, or any paid API.</p>
         </div>
       </section>
 
@@ -257,9 +189,9 @@
             <h2>Documentation</h2>
           </header>
           <ol class="steps">
-            <li>Clone: <code>git clone https://github.com/ayushdaksh120-blip/nova-free-video-studio.git</code></li>
-            <li>Enter: <code>cd nova-free-video-studio</code></li>
-            <li>Serve: <code>python -m http.server 9000</code></li>
+            <li>Open: <a class="link" href="https://ayushdaksh120-blip.github.io/nova-free-video-studio/" target="_blank" rel="noopener">https://ayushdaksh120-blip.github.io/nova-free-video-studio/</a></li>
+            <li>Or clone: <code>git clone https://github.com/ayushdaksh120-blip/nova-free-video-studio.git</code></li>
+            <li>Serve: <code>cd nova-free-video-studio && python -m http.server 9000</code></li>
             <li>Open: <code>http://localhost:9000</code></li>
           </ol>
           <h3 style="margin-top:18px;">Android / Termux</h3>
@@ -267,14 +199,15 @@
             <li><code>pkg update -y && pkg install -y python git</code></li>
             <li><code>git clone https://github.com/ayushdaksh120-blip/nova-free-video-studio.git</code></li>
             <li><code>cd nova-free-video-studio && python -m http.server 9000</code></li>
-            <li>Open in Chrome/Firefox: <code>http://localhost:9000</code></li>
+            <li>Open Chrome/Firefox at <code>http://localhost:9000</code></li>
           </ol>
-          <p class="muted" style="margin-top:16px;">This project is static. No build step, no database, no server required. Secrets are never stored in the repo.</p>
+          <p class="muted" style="margin-top:16px;">Static site. No backend, no database server, no secret required. All generation happens in your browser.</p>
         </div>
       </section>
     </main>
   </div>
 
+  <canvas id="render-canvas" width="854" height="480" aria-hidden="true" style="display:none;"></canvas>
   <script src="script.js"></script>
 </body>
 </html>

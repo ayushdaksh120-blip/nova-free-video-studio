@@ -1,40 +1,40 @@
-# Nova Studio · AI Video Generation
+# Nova Generator · Independent Video Studio
 
-Kling-style, mobile-first web app for generating real AI videos.
+A self-contained, owner-built AI-style video generator. No external APIs, no API keys, no paid providers, no fake videos.
 
-- Live site (GitHub Pages): https://ayushdaksh120-blip.github.io/nova-free-video-studio/
+- Live site: https://ayushdaksh120-blip.github.io/nova-free-video-studio/
 - Repository: https://github.com/ayushdaksh120-blip/nova-free-video-studio
 
-## Files
-- `index.html` — multi-tab app UI
+## What it does
+- Prompt-driven scene generation (aurora, city, ocean, space, abstract, nature)
+- Deterministic seeds for repeatable results
+- Real-time canvas rendering with particles, gradients, lighting, and camera motion
+- Genuine WebM output recorded from rendered frames via MediaRecorder
+- Optional ambient audio synthesized in-browser
+- Gallery persisted in IndexedDB (on-device only)
+- Mobile-first responsive UI
+
+## Architecture
+- `index.html` — tabbed app UI
 - `styles.css` — mobile-first dark theme
-- `script.js` — provider verification, Pollinations generation, local canvas recorder, gallery
+- `script.js` — prompt intelligence, scene engines, recording, storage
 - `manifest.webmanifest` — installable PWA metadata
-- `README.md` — setup notes
 
-## Verified provider status
-- Catalog: `GET https://gen.pollinations.ai/video/models` → HTTP 200 (20 models)
-- CORS: preflight `OPTIONS` → 204 with `access-control-allow-origin: *`
-- Generation: anonymous `GET /video/...` → HTTP 401 (key required)
-- Key validation: `GET /account/key` with Bearer token
-- Only the verified Pollinations endpoint is integrated. Other providers are listed as not integrated.
-
-## Local run
+## Run locally
 ```bash
 python -m http.server 9000
 # open http://localhost:9000
 ```
 
-Android/Termux:
+Android / Termux:
 ```bash
-pkg update -y
-pkg install -y python git
+pkg update -y && pkg install -y python git
 git clone https://github.com/ayushdaksh120-blip/nova-free-video-studio.git
 cd nova-free-video-studio
 python -m http.server 9000
 ```
 
-## Security
-- No API keys are committed.
-- Keys are stored only in browser localStorage.
--Rotate shared tokens after use.
+## Security / privacy
+- No secrets are committed or required.
+- All generation and storage happen in the browser.
+- No requests to Pollinations, Kling, Runway, Replicate, or Hugging Face.
